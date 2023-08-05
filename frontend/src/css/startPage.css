@@ -1,0 +1,65 @@
+body {
+  display: flex;
+  padding: 0 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.page_Container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  min-width: 100vw;
+  background: #6cc6cf;
+  background-image: url("/public/images/checkered-light-emboss.png");
+}
+
+.page_Container a {
+  text-decoration: none;
+}
+
+.page_Container .title-img {
+  margin-top: -8rem;
+}
+
+.page_Container .play-btn {
+  margin-top: 2rem;
+  width: 180px;
+}
+
+.page_Container .play-btn:hover {
+  cursor: pointer;
+  animation: wiggle 0.6s;
+}
+
+@keyframes wiggle {
+  25% {
+    transform: scale(0.8, 1);
+  }
+  50% {
+    transform: scale(1.1, 0.8);
+  }
+  75% {
+    transform: scale(0.7, 1.2);
+  }
+}
+
+@media (max-width: 782px) {
+  .page_Container .title-img {
+    width: 500px;
+  }
+  .page_Container .play-btn {
+    width: 150px;
+  }
+}
+
+@media (max-width: 450px) {
+  .page_Container .title-img {
+    width: 350px;
+  }
+  .page_Container .play-btn {
+    width: 120px;
+  }
+}
