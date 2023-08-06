@@ -12,9 +12,9 @@ app.use(express.json());
 const API_KEY = process.env.API_KEY;
 let randomWord = null;
 
-app.get("/word", async (req, res) => {
+app.get("/wordHint", async (req, res) => {
   try {
-    //Random Word Api Endpoints
+    // Fetch Random Word from API
     const response = await axios.get(
       "https://api.wordnik.com/v4/words.json/randomWord",
       {
@@ -26,23 +26,14 @@ app.get("/word", async (req, res) => {
         },
       }
     );
-    randomWord = response.data.word;
-    res.json(response.data);
-    // console.log(response.data.word);
-  } catch (error) {
-    res.status(500).json({ error: "Error fetching random word" });
-    // console.log(error);
-  }
-});
 
-app.get("/hint", async (req, res) => {
-  try {
-    if (!randomWord) {
-      return res.status(400).json({ error: "Random word not fetched yet" });
-    }
-    //Random hint Api Endpoints
+    const randomWord = response.data.word;
+    const cleanedWord = randomWord.toLowerCase().replace(/[^a-z]/g, "");
+    console.log(cleanedWord);
+
+    // Fetch Hint for the Random Word from API
     const dictionaryResponse = await axios.get(
-      `https://api.wordnik.com/v4/word.json/${randomWord}/definitions`,
+      `https://api.wordnik.com/v4/word.json/${cleanedWord}/definitions`,
       {
         headers: {
           api_key: API_KEY,
@@ -52,11 +43,23 @@ app.get("/hint", async (req, res) => {
         },
       }
     );
-    res.json(dictionaryResponse.data[0].text);
-    // console.log(dictionaryResponse.data[0].text);
+
+    let hint = "No definition available, Just Hit 🔃!";
+    if (dictionaryResponse.data.length > 0) {
+      const definition = dictionaryResponse.data[0].text;
+      hint = definition.replace(/<\/?[^>]+(>|$)/g, "");
+    }
+    console.log(hint);
+
+    const responseWithWordAndHint = {
+      word: cleanedWord,
+      hint: hint,
+    };
+
+    res.json(responseWithWordAndHint);
   } catch (error) {
-    res.status(500).json({ error: "Error fetching random word" });
-    // console.log(error);
+    res.status(500).json({ error: "Error fetching random word or hint" });
+    console.error(error);
   }
 });
 
