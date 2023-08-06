@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import backendUrl from "../config";
 
 import Hangmanbox from "./Hangmanbox";
 import Gamemodal from "./Gamemodal";
@@ -54,7 +55,7 @@ export default function Gamebox() {
     try {
       //Fetching random word and hint from backend
       setRandomHint("Loading...");
-      const response = await axios.get("http://localhost:5000/wordHint");
+      const response = await axios.get(`${backendUrl}/wordHint`);
       const word = response.data.word.toLowerCase();
       const hint = response.data.hint;
 

@@ -1,16 +1,20 @@
 const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
+const path = require("path");
+const serve = require("serve-static");
 require("dotenv").config();
 
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
 
-const API_KEY = process.env.API_KEY;
-let randomWord = null;
+const frontPath = path.join(__dirname, "../frontend/build");
+app.use(serve(frontPath));
+
+const API_KEY = process.env.WORDNIK_API_KEY;
 
 app.get("/wordHint", async (req, res) => {
   try {
@@ -61,6 +65,10 @@ app.get("/wordHint", async (req, res) => {
     res.status(500).json({ error: "Error fetching random word or hint" });
     console.error(error);
   }
+});
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/build/index.html"));
 });
 
 app.listen(port, () => {
