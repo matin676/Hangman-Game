@@ -11,7 +11,7 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-const frontPath = path.join(__dirname, "../frontend/build");
+const frontPath = path.join(__dirname, "../frontend/public");
 app.use(serve(frontPath));
 
 const API_KEY = process.env.WORDNIK_API_KEY;
@@ -68,7 +68,7 @@ app.get("/wordHint", async (req, res) => {
 });
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/build/index.html"));
+  res.sendFile(path.join(__dirname, "../frontend/public/index.html"));
 });
 
 app.listen(port, () => {
