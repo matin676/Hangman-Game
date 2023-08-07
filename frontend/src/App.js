@@ -13,6 +13,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<StartPage />} />
         <Route path="/gamebox" element={<Gamebox />} />
+        <Route path="*" element={<StartPage />} />
       </Routes>
     </Router>
   );
