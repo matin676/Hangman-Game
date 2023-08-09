@@ -53,7 +53,7 @@ export default function Gamebox() {
 
   const fetchWordAndHint = async () => {
     try {
-      //Fetching random word and hint from backend
+      // Random word and Hint from backend
       setRandomHint("Loading...");
       const response = await axios.get(`${backendUrl}/wordHint`);
       const word = response.data.word.toLowerCase();
@@ -62,14 +62,13 @@ export default function Gamebox() {
       console.log(word);
       console.log(hint);
 
-      // Update the state with the fetched word and hint
       setRandomWord(word);
       setRandomHint(hint);
       setGameStarted(true);
       setCurrentWord(word.replace(/\s/g, " ").toLowerCase());
     } catch (error) {
       console.error("Error fetching random word or hint:", error);
-      // Setting a default word and hint in case of an error
+      // Default Word & Hint
       setRandomWord("hangman");
       setRandomHint("No definition available, Just Hit 🔃!");
       setGameStarted(true);

@@ -18,7 +18,7 @@ const API_KEY = process.env.WORDNIK_API_KEY;
 
 app.get("/wordHint", async (req, res) => {
   try {
-    // Fetch Random Word from API
+    // Random Word
     const response = await axios.get(
       "https://api.wordnik.com/v4/words.json/randomWord",
       {
@@ -35,7 +35,7 @@ app.get("/wordHint", async (req, res) => {
     const cleanedWord = randomWord.toLowerCase().replace(/[^a-z]/g, "");
     console.log(cleanedWord);
 
-    // Fetch Hint for the Random Word from API
+    // Hint
     const dictionaryResponse = await axios.get(
       `https://api.wordnik.com/v4/word.json/${cleanedWord}/definitions`,
       {
