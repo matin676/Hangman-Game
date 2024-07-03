@@ -22,11 +22,12 @@ app.get("/wordHint", async (req, res) => {
     const response = await axios.get(
       "https://api.wordnik.com/v4/words.json/randomWord",
       {
-        headers: {
-          api_key: API_KEY,
-        },
         params: {
           hasDictionaryDef: "true",
+          api_key: API_KEY,
+        },
+        headers: {
+          "content-type": "application/json; charset=utf-8",
         },
       }
     );
@@ -39,11 +40,12 @@ app.get("/wordHint", async (req, res) => {
     const dictionaryResponse = await axios.get(
       `https://api.wordnik.com/v4/word.json/${cleanedWord}/definitions`,
       {
-        headers: {
-          api_key: API_KEY,
-        },
         params: {
           sourceDictionaries: "all",
+          api_key: API_KEY,
+        },
+        headers: {
+          "content-type": "application/json; charset=utf-8",
         },
       }
     );
