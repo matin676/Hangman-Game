@@ -1,0 +1,186 @@
+/* ===================================
+   KEYBOARD COMPONENT STYLES
+   =================================== */
+
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+}
+
+.keyboard-row {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+/* Offset middle rows for QWERTY feel */
+.keyboard-row:nth-child(2) {
+  padding-left: calc(var(--space-4));
+}
+
+.keyboard-row:nth-child(3) {
+  padding-left: calc(var(--space-8));
+}
+
+/* Key Button */
+.key {
+  position: relative;
+  width: 44px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-tertiary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  overflow: hidden;
+  transition: all var(--transition-fast);
+}
+
+.key::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    transparent 50%
+  );
+  pointer-events: none;
+}
+
+.key:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: var(--bg-card);
+  border-color: var(--primary-500);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.key:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.key:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+/* Key Letter */
+.key-letter {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  position: relative;
+  z-index: 1;
+}
+
+/* Key States */
+.key-correct {
+  background: var(--success-500);
+  border-color: var(--success-400);
+  opacity: 1 !important;
+}
+
+.key-correct .key-letter {
+  color: white;
+}
+
+.key-correct:hover:not(:disabled) {
+  background: var(--success-500);
+  border-color: var(--success-400);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
+}
+
+.key-incorrect {
+  background: var(--error-500);
+  border-color: var(--error-400);
+  opacity: 0.6 !important;
+}
+
+.key-incorrect .key-letter {
+  color: white;
+}
+
+.key-eliminated {
+  background: var(--bg-tertiary);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  opacity: 0.25 !important;
+  cursor: not-allowed;
+}
+
+.key-eliminated .key-letter {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+/* Ripple Effect */
+.key-ripple {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.3) 0%,
+    transparent 70%
+  );
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.3s ease;
+}
+
+.key:active .key-ripple {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .key {
+    width: 36px;
+    height: 44px;
+  }
+
+  .key-letter {
+    font-size: var(--text-base);
+  }
+
+  .keyboard-row:nth-child(2) {
+    padding-left: var(--space-3);
+  }
+
+  .keyboard-row:nth-child(3) {
+    padding-left: var(--space-6);
+  }
+}
+
+@media (max-width: 480px) {
+  .keyboard {
+    gap: var(--space-1);
+  }
+
+  .keyboard-row {
+    gap: var(--space-1);
+  }
+
+  .key {
+    width: 28px;
+    height: 38px;
+    border-radius: var(--radius-md);
+  }
+
+  .key-letter {
+    font-size: var(--text-sm);
+  }
+
+  .keyboard-row:nth-child(2) {
+    padding-left: var(--space-2);
+  }
+
+  .keyboard-row:nth-child(3) {
+    padding-left: var(--space-4);
+  }
+}

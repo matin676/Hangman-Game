@@ -1,46 +1,69 @@
-import React, { useEffect, useRef } from "react";
+import React, { useMemo } from "react";
+import { useSound } from "../hooks/useSound";
+import "../css/keyboard.css";
 
-export default function Keyboard({ selectedLetters, gameOver, onLetterClick }) {
-  const keyboardRef = useRef(null);
-  const clickAudioRef = useRef(null);
+const LETTERS = "abcdefghijklmnopqrstuvwxyz".split("");
 
-  clickAudioRef.current = new Audio("/audio/keyboard.mp3");
+export default function Keyboard({
+  selectedLetters,
+  eliminatedLetters = [],
+  correctWord = "",
+  gameOver,
+  onLetterClick,
+}) {
+  const { playSound } = useSound();
 
-  const playClickSound = () => {
-    if (clickAudioRef.current) {
-      clickAudioRef.current.play();
+  // Determine if a letter is correct, incorrect, or eliminated
+  const getLetterStatus = (letter) => {
+    if (eliminatedLetters.includes(letter)) return "eliminated";
+    if (!selectedLetters.includes(letter)) return "default";
+    if (correctWord.toLowerCase().includes(letter)) return "correct";
+    return "incorrect";
+  };
+
+  const handleClick = (letter) => {
+    if (!selectedLetters.includes(letter) && !gameOver) {
+      playSound("/audio/keyboard.mp3");
+      onLetterClick(letter);
     }
   };
 
-  useEffect(() => {
-    const keyboardDiv = keyboardRef.current;
-    if (keyboardDiv) {
-      keyboardDiv.innerHTML = "";
-      for (let i = 97; i <= 122; i++) {
-        const letter = String.fromCharCode(i);
-        const button = document.createElement("button");
-        const span = document.createElement("span");
-        span.innerText = letter;
-        keyboardDiv.appendChild(button);
-        button.appendChild(span);
-        button.disabled = selectedLetters.includes(letter) || gameOver;
-        button.addEventListener("click", () => {
-          onLetterClick(letter);
-          playClickSound();
-        });
-      }
-    }
+  // Split letters into rows for QWERTY-like layout
+  const rows = useMemo(
+    () => [
+      LETTERS.slice(0, 10), // q-p (first 10)
+      LETTERS.slice(10, 19), // a-l (next 9)
+      LETTERS.slice(19, 26), // z-m (last 7)
+    ],
+    []
+  );
 
-    return () => {
-      const buttons = keyboardDiv ? keyboardDiv.querySelectorAll("button") : [];
-      buttons.forEach((button) => {
-        button.removeEventListener("click", () => {
-          onLetterClick(button.innerText);
-          playClickSound();
-        });
-      });
-    };
-  }, [selectedLetters, gameOver, onLetterClick]);
+  return (
+    <div className="keyboard">
+      {rows.map((row, rowIndex) => (
+        <div key={rowIndex} className="keyboard-row">
+          {row.map((letter) => {
+            const status = getLetterStatus(letter);
+            const isDisabled =
+              selectedLetters.includes(letter) ||
+              eliminatedLetters.includes(letter) ||
+              gameOver;
 
-  return <div className="keyboard" ref={keyboardRef}></div>;
+            return (
+              <button
+                key={letter}
+                className={`key key-${status}`}
+                onClick={() => handleClick(letter)}
+                disabled={isDisabled}
+                aria-label={`Letter ${letter}`}
+              >
+                <span className="key-letter">{letter}</span>
+                <span className="key-ripple"></span>
+              </button>
+            );
+          })}
+        </div>
+      ))}
+    </div>
+  );
 }

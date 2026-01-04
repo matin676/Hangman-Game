@@ -1,77 +1,67 @@
-# Hangman Game
+# 🎮 Advanced AI-Powered Hangman
 
-Welcome to the Hangman Game project! This is a classic word-guessing game built using React and Gemini AI.
+A premium, feature-rich Hangman word guessing game built with **React 19**, **Vite**, and **Google Gemini AI**.
 
-## Demo
+![React](https://img.shields.io/badge/React-19-blue?style=flat-square&logo=react)
+![Vite](https://img.shields.io/badge/Vite-6-purple?style=flat-square&logo=vite)
+![Gemini](https://img.shields.io/badge/AI-Gemini_2.0-orange?style=flat-square)
+![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 
-![StartPage](images/startpage.png)
-![Gameplay](images/gameplay.png)
+## ✨ Features
 
-## Built With
+### 🤖 AI-Powered Vocabulary
 
-- `Frontend:` React.js for building the user interface, state management, and dynamic rendering.
-- `APIs:` Integration with external(Gemini AI) APIs to fetch random words and their definitions.
-- `Styling:` CSS for designing the visual components and enhancing the user interface.
-- `Deployment:` Netlify for hosting and rendering the game.
+- **Dynamic Word Generation**: Words and context-aware hints generated in real-time by Google Gemini AI.
+- **Categorized Challenges**: Choose from **Superhero**, **Animal**, and **Movie** categories.
+- **Fail-safe Logic**: Built-in fallback word library ensures uninterrupted gameplay even without an API connection.
 
-## Features
+### ⚙️ RPG-Style Progression
 
-- Random word generation
-- Interactive keyboard for letter guessing
-- Real-time feedback on correct and incorrect guesses
-- Hint for each word to aid players
+- **Difficulty Modes**:
+  - **Easy**: 8 guesses | 1.0x Rewards.
+  - **Medium**: 6 guesses | 1.5x Rewards.
+  - **Hard**: 4 guesses | 2.5x Rewards.
+- **✨ Glow Coins**: Earn coins by winning games and spend them on strategic power-ups.
+- **Power-up System**:
+  - **Scan (50 ✨)**: Automatically reveals a hidden letter.
+  - **Eliminate (30 ✨)**: Disables two incorrect letters from the keyboard.
 
-## Getting Started
+### 🎨 Immersive Experience
 
-### Prerequisites
+- **Dynamic Themes**: Switch between **Cyberpunk**, **Deep Ocean**, and **Midnight Forest** styles.
+- **Smooth Animations**: Glassmorphism UI with micro-interactions and transitions.
+- **Soundscape**: Immersive audio feedback for every action (win, loss, power-up).
 
-- Node.js and npm installed
-- Web browser
+### 📊 Persistent Progress
 
-### Installation
+- **Unified Stats**: Real-time synchronization of wins, streaks, and coins using React Context.
+- **Local Persistence**: All stats, difficulty settings, and themes are saved to `localStorage`.
 
-1. Clone the repository: `https://github.com/matin676/Hangman-Game.git`
-2. Navigate to the directory: `cd Hangman-Game`
-3. Install dependencies: `npm install`
-4. Start the application: `npm start`
-5. Open your browser and visit: `http://localhost:3000`
+## 🚀 Quick Start
 
-### Usage
+```bash
+# 1. Clone & Install
+git clone https://github.com/your-username/hangman-ai.git
+cd hangman-ai
+npm install
 
-- Open the game in your web browser.
-- Click on letters to make guesses.
-- The game will provide feedback on correct and incorrect guesses.
-- Use the hint if needed.
+# 2. Setup API Key
+echo "VITE_API_KEY=your_gemini_api_key_here" > .env
 
-## Game Rules
+# 3. Launch
+npm run dev
+```
 
-- The game selects a random word from its dictionary.
-- Players must guess letters to reveal the word.
-- Incorrect guesses lead to drawing a part of the hangman figure.
-- The game ends when the player wins or the hangman is complete.
+> [!TIP]
+> Get your API key for free from [Google AI Studio](https://aistudio.google.com/app/apikey).
 
-## Deployment
+## 🛠️ Technical Implementation
 
-You can experience the game here: [Hangman Game](https://hangman77.netlify.app/).
+- **State Management**: Centralized `GameContext` (React Context API) for global state synchronization.
+- **Navigation**: `React Router 7` with Portal-based overlays for high-performance UI components.
+- **Data Hooking**: `SWR` for intelligent word fetching and revalidation.
+- **Architecture**: Modular component-based design with custom hooks for audio and statistics.
 
-## Contributors
+## 📄 License
 
-- Matin Imam (GitHub: [Matin676](https://github.com/matin676))
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
-## Contact
-
-Feel free to reach out to me via LinkedIn: [Matin Imam](https://www.linkedin.com/in/matinimam/)
-
-You can also contact me via email at matinimam77@gmail.com.
-
-## Acknowledgements
-
-- [React](https://reactjs.org/)
-- [Netlify](https://www.netlify.com/)
-- [Gemini AI](https://ai.google.dev/gemini-api/docs/get-started/tutorial?lang=web)
-
----
+MIT © Matin Imam

@@ -5,8 +5,12 @@ export default function Hangmanbox({ incorrectGuesses }) {
 
   return (
     <div className="hangman-box">
-      <img src={`/images/${imageName}`} draggable="false" alt="hangman-img" />
-      <h1>Hangman Game</h1>
+      <img
+        src={`/images/${imageName}`}
+        draggable="false"
+        alt={`Hangman stage ${incorrectGuesses}`}
+        className="hangman-img"
+      />
     </div>
   );
 }

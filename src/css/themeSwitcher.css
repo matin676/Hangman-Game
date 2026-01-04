@@ -1,0 +1,105 @@
+.theme-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+  overflow-y: auto;
+}
+
+.theme-modal {
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-2xl);
+  width: 100%;
+  max-width: 400px;
+  overflow: hidden;
+  box-shadow: var(--shadow-xl), var(--shadow-glow);
+  margin: auto;
+}
+
+.theme-header {
+  padding: var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.theme-title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  margin: 0;
+}
+
+.theme-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 24px;
+  cursor: pointer;
+  transition: color var(--transition-base);
+}
+
+.theme-close:hover {
+  color: var(--text-primary);
+}
+
+.theme-grid {
+  padding: var(--space-6);
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: var(--space-3);
+}
+
+.theme-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  background: var(--bg-glass);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-xl);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  position: relative;
+  text-align: left;
+}
+
+.theme-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateX(5px);
+  border-color: var(--primary-400);
+}
+
+.theme-card.active {
+  background: var(--bg-tertiary);
+  border-color: var(--primary-500);
+  color: var(--text-primary);
+}
+
+.theme-icon {
+  font-size: 24px;
+}
+
+.theme-label {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+
+.theme-active-dot {
+  position: absolute;
+  right: var(--space-4);
+  width: 8px;
+  height: 8px;
+  background: var(--primary-400);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--primary-400);
+}

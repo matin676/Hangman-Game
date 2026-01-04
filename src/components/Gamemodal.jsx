@@ -1,4 +1,6 @@
 import React, { useRef, useEffect } from "react";
+import { useSound } from "../hooks/useSound";
+import "../css/gamemodal.css";
 
 export default function Gamemodal({
   correctWord,
@@ -6,69 +8,92 @@ export default function Gamemodal({
   onPlayAgain,
   gameOver,
 }) {
-  const message = playerGuessedCorrectly ? "Congrats!" : "Game Over!";
+  const message = playerGuessedCorrectly ? "Victory!" : "Game Over";
   const message2 = playerGuessedCorrectly
-    ? "You found the word:"
+    ? "You guessed the word:"
     : "The correct word was:";
-  const imageUrl = playerGuessedCorrectly
-    ? "/images/victory.gif"
-    : "/images/lost.gif";
 
   const playAgainButtonRef = useRef(null);
-  const clickAudioRef = useRef(null);
-  const correctSoundRef = useRef(null);
-  const wrongSoundRef = useRef(null);
+  const { playSound } = useSound();
 
   const handlePlayAgainClick = () => {
+    playSound("/audio/playagain.mp3");
     onPlayAgain();
-    playClickSound();
   };
-
-  const playClickSound = () => {
-    if (clickAudioRef.current) {
-      clickAudioRef.current.play();
-    }
-  };
-
-  const playOutcomeSound = (playerGuessedCorrectly) => {
-    if (playerGuessedCorrectly) {
-      if (correctSoundRef.current) {
-        correctSoundRef.current.play();
-      }
-    } else {
-      if (wrongSoundRef.current) {
-        wrongSoundRef.current.play();
-      }
-    }
-  };
-
-  useEffect(() => {
-    clickAudioRef.current = new Audio("/audio/playagain.mp3");
-    correctSoundRef.current = new Audio("/audio/gamewin.mp3");
-    wrongSoundRef.current = new Audio("/audio/gameover.mp3");
-  }, []);
 
   useEffect(() => {
     if (gameOver) {
-      playOutcomeSound(playerGuessedCorrectly);
+      if (playerGuessedCorrectly) {
+        playSound("/audio/gamewin.mp3");
+      } else {
+        playSound("/audio/gameover.mp3");
+      }
     }
-  }, [gameOver, playerGuessedCorrectly]);
+  }, [gameOver, playerGuessedCorrectly, playSound]);
 
   return (
-    <div className={`game-modal ${gameOver ? "show" : ""}`}>
-      <div className="content">
-        <img src={imageUrl} alt="alt" />
-        <h4>{message}</h4>
-        <p>
-          {message2} <b className="correctWord">{correctWord}</b>
-        </p>
-        <button
-          className="play-again"
-          onClick={handlePlayAgainClick}
-          ref={playAgainButtonRef}
+    <div className={`modal-overlay ${gameOver ? "show" : ""}`}>
+      <div
+        className={`modal-content ${
+          playerGuessedCorrectly ? "modal-win" : "modal-lose"
+        }`}
+      >
+        {/* Confetti for win */}
+        {playerGuessedCorrectly && (
+          <div className="confetti-container">
+            {[...Array(20)].map((_, i) => (
+              <div
+                key={i}
+                className="confetti"
+                style={{
+                  "--delay": `${Math.random() * 0.5}s`,
+                  "--x": `${Math.random() * 100}%`,
+                  "--rotation": `${Math.random() * 360}deg`,
+                }}
+              />
+            ))}
+          </div>
+        )}
+
+        <div
+          className={`modal-icon ${
+            playerGuessedCorrectly ? "" : "animate-shake"
+          }`}
         >
-          <span>Play Again</span>
-        </button>
+          {playerGuessedCorrectly ? "🎉" : "💀"}
+        </div>
+
+        <h2
+          className={`modal-title ${
+            playerGuessedCorrectly ? "gradient-text" : ""
+          }`}
+        >
+          {message}
+        </h2>
+
+        <p className="modal-message">
+          {message2}
+          <span className="modal-word">{correctWord}</span>
+        </p>
+
+        <div className="modal-actions">
+          <button
+            className="btn btn-primary modal-btn"
+            onClick={handlePlayAgainClick}
+            ref={playAgainButtonRef}
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
+              <path d="M21 3v5h-5" />
+            </svg>
+            Play Again
+          </button>
+        </div>
       </div>
     </div>
   );

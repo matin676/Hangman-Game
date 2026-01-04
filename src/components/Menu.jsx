@@ -1,38 +1,140 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import { useSound } from "../hooks/useSound";
+import { DIFFICULTIES, STORAGE_KEYS } from "../constants";
 import "../css/menu.css";
 
+const categories = [
+  {
+    id: "superhero",
+    name: "Superhero",
+    description: "Marvel & DC Heroes",
+    icon: "🦸",
+    gradient: "linear-gradient(135deg, #ef4444 0%, #f97316 100%)",
+  },
+  {
+    id: "animal",
+    name: "Animal",
+    description: "Wildlife Kingdom",
+    icon: "🦁",
+    gradient: "linear-gradient(135deg, #22c55e 0%, #10b981 100%)",
+  },
+  {
+    id: "movie",
+    name: "Movie",
+    description: "Famous Films",
+    icon: "🎬",
+    gradient: "linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%)",
+  },
+];
+
 export default function Menu() {
+  const { playSound } = useSound();
+  const [difficulty, setDifficultyState] = React.useState(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEYS.DIFFICULTY);
+      return saved || DIFFICULTIES.MEDIUM.id;
+    } catch {
+      return DIFFICULTIES.MEDIUM.id;
+    }
+  });
+
+  const handleDifficultyChange = (id) => {
+    setDifficultyState(id);
+    playSound("/audio/keyboard.mp3");
+    try {
+      localStorage.setItem(STORAGE_KEYS.DIFFICULTY, id);
+    } catch (error) {
+      console.error("Failed to save difficulty:", error);
+    }
+  };
+
+  const handleCategoryClick = () => {
+    playSound("/audio/keyboard.mp3");
+  };
+
   return (
     <div className="menu-page">
-      <h2 className="menu-logo">
-        <img src="/images/menu.png" alt="menu" />
-      </h2>
-      <div className="menu-container">
-        <div className="menu-box">
-          <Link to="/main/superhero" className="menu-link">
-            <div className="menu-img-container">
-              <img src="/images/superhero_logo.jpg" alt="superhero game" />
-            </div>
-            <h2 className="menu-box-logo">Superhero</h2>
-          </Link>
+      <div className="menu-content">
+        <Link to="/" className="back-button">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+          <span>Back</span>
+        </Link>
+
+        <div className="menu-header animate-fade-in-down">
+          <h1 className="menu-title gradient-text">Select Difficulty</h1>
+          <div className="difficulty-selector">
+            {Object.values(DIFFICULTIES).map((d) => (
+              <button
+                key={d.id}
+                className={`difficulty-btn ${
+                  difficulty === d.id ? "active" : ""
+                }`}
+                onClick={() => handleDifficultyChange(d.id)}
+              >
+                <span className="diff-label">{d.label}</span>
+                <span className="diff-guesses">{d.guesses} Guesses</span>
+              </button>
+            ))}
+          </div>
+
+          <h2 className="menu-subtitle" style={{ marginTop: "var(--space-8)" }}>
+            Choose Category
+          </h2>
+          <p className="menu-subtitle">Select a category to start playing</p>
         </div>
-        <div className="menu-box">
-          <Link to="/main/animal" className="menu-link">
-            <div className="menu-img-container">
-              <img src="/images/animal.jpg" alt="animal game" />
-            </div>
-            <h2 className="menu-box-logo">Animal</h2>
-          </Link>
+
+        <div className="categories-grid">
+          {categories.map((category, index) => (
+            <Link
+              key={category.id}
+              to={`/main/${category.id}`}
+              className={`category-card animate-fade-in-up stagger-${
+                index + 1
+              }`}
+              onClick={handleCategoryClick}
+              style={{ "--card-gradient": category.gradient }}
+            >
+              <div className="category-icon-container">
+                <span className="category-icon">{category.icon}</span>
+              </div>
+              <div className="category-info">
+                <h2 className="category-name">{category.name}</h2>
+                <p className="category-description">{category.description}</p>
+              </div>
+              <div className="category-arrow">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </div>
+              <div className="category-glow"></div>
+            </Link>
+          ))}
         </div>
-        <div className="menu-box">
-          <Link to="/main/movie" className="menu-link">
-            <div className="menu-img-container">
-              <img src="/images/movie.jpg" alt="movie game" />
-            </div>
-            <h2 className="menu-box-logo">Movie</h2>
-          </Link>
+
+        <div className="menu-tip animate-fade-in">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 16v-4M12 8h.01" />
+          </svg>
+          <span>Words are generated by AI - each game is unique!</span>
         </div>
       </div>
     </div>

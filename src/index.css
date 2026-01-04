@@ -1,0 +1,761 @@
+/* ===================================
+   HANGMAN GAME - GLOBAL DESIGN SYSTEM
+   =================================== */
+
+/* Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap");
+
+/* ===================================
+   CSS CUSTOM PROPERTIES (DESIGN TOKENS)
+   =================================== */
+:root {
+  /* Typography */
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+
+  /* Font Sizes */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+
+  /* Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  /* Border Radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 350ms ease;
+  --transition-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Common UI Colors */
+  --success-400: #4ade80;
+  --success-500: #22c55e;
+  --error-400: #f87171;
+  --error-500: #ef4444;
+  --warning-400: #fbbf24;
+  --warning-500: #f59e0b;
+
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #64748b;
+
+  --bg-glass: rgba(255, 255, 255, 0.05);
+  --bg-card: rgba(30, 30, 50, 0.8);
+
+  /* Shared Gradients */
+  --gradient-success: linear-gradient(
+    135deg,
+    var(--success-400) 0%,
+    var(--success-500) 100%
+  );
+  --gradient-error: linear-gradient(
+    135deg,
+    var(--error-400) 0%,
+    var(--error-500) 100%
+  );
+}
+
+/* ===================================
+   THEMES
+   =================================== */
+
+/* default / Cyberpunk Theme */
+body.theme-cyberpunk,
+:root {
+  --primary-400: #a78bfa;
+  --primary-500: #8b5cf6;
+  --primary-600: #7c3aed;
+  --accent-400: #22d3ee;
+  --accent-500: #06b6d4;
+  --bg-primary: #0f0f1a;
+  --bg-secondary: #1a1a2e;
+  --bg-tertiary: #252542;
+
+  --gradient-primary: linear-gradient(
+    135deg,
+    var(--primary-500) 0%,
+    var(--accent-500) 100%
+  );
+  --gradient-bg: linear-gradient(
+    180deg,
+    var(--bg-primary) 0%,
+    var(--bg-secondary) 100%
+  );
+  --shadow-glow: 0 0 20px rgba(139, 92, 246, 0.4);
+  --shadow-glow-accent: 0 0 20px rgba(6, 182, 212, 0.4);
+}
+
+/* Deep Ocean Theme */
+body.theme-ocean {
+  --primary-400: #38bdf8;
+  --primary-500: #0ea5e9;
+  --primary-600: #0284c7;
+  --accent-400: #2dd4bf;
+  --accent-500: #14b8a6;
+  --bg-primary: #082f49;
+  --bg-secondary: #0c4a6e;
+  --bg-tertiary: #075985;
+  --bg-card: rgba(12, 74, 110, 0.8);
+
+  --gradient-primary: linear-gradient(
+    135deg,
+    var(--primary-500) 0%,
+    var(--accent-500) 100%
+  );
+  --gradient-bg: linear-gradient(
+    180deg,
+    var(--bg-primary) 0%,
+    var(--bg-secondary) 100%
+  );
+  --shadow-glow: 0 0 20px rgba(14, 165, 233, 0.4);
+  --shadow-glow-accent: 0 0 20px rgba(20, 184, 166, 0.4);
+}
+
+/* Midnight Forest Theme */
+body.theme-forest {
+  --primary-400: #4ade80;
+  --primary-500: #22c55e;
+  --primary-600: #16a34a;
+  --accent-400: #94a3b8;
+  --accent-500: #64748b;
+  --bg-primary: #061f14;
+  --bg-secondary: #0c2e1f;
+  --bg-tertiary: #143d2c;
+  --bg-card: rgba(12, 46, 31, 0.8);
+
+  --gradient-primary: linear-gradient(
+    135deg,
+    var(--primary-500) 0%,
+    var(--accent-500) 100%
+  );
+  --gradient-bg: linear-gradient(
+    180deg,
+    var(--bg-primary) 0%,
+    var(--bg-secondary) 100%
+  );
+  --shadow-glow: 0 0 20px rgba(34, 197, 94, 0.4);
+  --shadow-glow-accent: 0 0 20px rgba(100, 116, 139, 0.4);
+}
+
+/* ===================================
+   CSS RESET & BASE STYLES
+   =================================== */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--gradient-bg);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===================================
+   ANIMATED BACKGROUND
+   =================================== */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+      ellipse at 20% 30%,
+      rgba(139, 92, 246, 0.15) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at 80% 70%,
+      rgba(6, 182, 212, 0.1) 0%,
+      transparent 50%
+    );
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Floating particles */
+.particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--primary-400);
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: float 15s infinite ease-in-out;
+}
+
+.particle:nth-child(1) {
+  left: 10%;
+  animation-delay: 0s;
+  animation-duration: 12s;
+}
+.particle:nth-child(2) {
+  left: 20%;
+  animation-delay: 2s;
+  animation-duration: 14s;
+}
+.particle:nth-child(3) {
+  left: 30%;
+  animation-delay: 4s;
+  animation-duration: 16s;
+}
+.particle:nth-child(4) {
+  left: 40%;
+  animation-delay: 1s;
+  animation-duration: 13s;
+}
+.particle:nth-child(5) {
+  left: 50%;
+  animation-delay: 3s;
+  animation-duration: 15s;
+}
+.particle:nth-child(6) {
+  left: 60%;
+  animation-delay: 5s;
+  animation-duration: 11s;
+}
+.particle:nth-child(7) {
+  left: 70%;
+  animation-delay: 2s;
+  animation-duration: 17s;
+}
+.particle:nth-child(8) {
+  left: 80%;
+  animation-delay: 4s;
+  animation-duration: 14s;
+}
+.particle:nth-child(9) {
+  left: 90%;
+  animation-delay: 1s;
+  animation-duration: 12s;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(100vh) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.3;
+  }
+  90% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(-100vh) scale(1);
+    opacity: 0;
+  }
+}
+
+/* ===================================
+   UTILITY CLASSES
+   =================================== */
+.glass {
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-xl);
+}
+
+.gradient-text {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glow {
+  box-shadow: var(--shadow-glow);
+}
+
+.glow-accent {
+  box-shadow: var(--shadow-glow-accent);
+}
+
+/* ===================================
+   BUTTON STYLES
+   =================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+.btn-primary {
+  background: var(--gradient-primary);
+  color: white;
+  box-shadow: var(--shadow-md), var(--shadow-glow);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg), 0 0 30px rgba(139, 92, 246, 0.5);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-card);
+  border-color: var(--primary-500);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+}
+
+.btn-ghost:hover {
+  background: var(--bg-glass);
+  color: var(--text-primary);
+}
+
+.btn-icon {
+  padding: var(--space-3);
+  border-radius: var(--radius-full);
+}
+
+/* ===================================
+   CARD STYLES
+   =================================== */
+.card {
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  transition: all var(--transition-base);
+}
+
+.card:hover {
+  border-color: rgba(139, 92, 246, 0.3);
+  box-shadow: var(--shadow-lg);
+}
+
+.card-interactive {
+  cursor: pointer;
+}
+
+.card-interactive:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl), var(--shadow-glow);
+}
+
+/* ===================================
+   ANIMATIONS
+   =================================== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-5px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(5px);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(139, 92, 246, 0.6);
+  }
+}
+
+/* Animation utilities */
+.animate-fade-in {
+  animation: fadeIn var(--transition-base) ease-out;
+}
+.animate-fade-in-up {
+  animation: fadeInUp var(--transition-slow) ease-out;
+}
+.animate-fade-in-down {
+  animation: fadeInDown var(--transition-slow) ease-out;
+}
+.animate-scale-in {
+  animation: scaleIn var(--transition-spring);
+}
+.animate-slide-in-left {
+  animation: slideInLeft var(--transition-slow) ease-out;
+}
+.animate-slide-in-right {
+  animation: slideInRight var(--transition-slow) ease-out;
+}
+.animate-pulse {
+  animation: pulse 2s infinite;
+}
+.animate-bounce {
+  animation: bounce 1s infinite;
+}
+.animate-shake {
+  animation: shake 0.5s ease-in-out;
+}
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+.animate-glow {
+  animation: glow-pulse 2s infinite;
+}
+
+/* Stagger animations */
+.stagger-1 {
+  animation-delay: 0.1s;
+}
+.stagger-2 {
+  animation-delay: 0.2s;
+}
+.stagger-3 {
+  animation-delay: 0.3s;
+}
+.stagger-4 {
+  animation-delay: 0.4s;
+}
+.stagger-5 {
+  animation-delay: 0.5s;
+}
+
+/* ===================================
+   LOADING STATES
+   =================================== */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-tertiary) 25%,
+    var(--bg-card) 50%,
+    var(--bg-tertiary) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: var(--radius-md);
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ===================================
+   RESPONSIVE BREAKPOINTS
+   =================================== */
+@media (max-width: 768px) {
+  :root {
+    --text-5xl: 2.5rem;
+    --text-6xl: 3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --text-4xl: 1.875rem;
+    --text-5xl: 2rem;
+    --text-6xl: 2.5rem;
+  }
+}
+
+/* ===================================
+   LOADING FALLBACK (for React.lazy)
+   =================================== */
+.loading-fallback {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  color: var(--text-muted);
+}
+
+.loading-fallback .loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--bg-tertiary);
+  border-top-color: var(--primary-500);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.loading-fallback p {
+  font-size: var(--text-sm);
+}
+
+/* ===================================
+   ACCESSIBILITY - REDUCED MOTION
+   =================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .particles {
+    display: none;
+  }
+}
+
+/* ===================================
+   PRINT STYLES
+   =================================== */
+@media print {
+  body::before,
+  .particles {
+    display: none;
+  }
+
+  body {
+    background: white;
+    color: black;
+  }
+}
+
+/* ===================================
+   ERROR BOUNDARY
+   =================================== */
+.error-boundary {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8);
+}
+
+.error-boundary-content {
+  text-align: center;
+  max-width: 400px;
+}
+
+.error-boundary .error-icon {
+  font-size: 64px;
+  display: block;
+  margin-bottom: var(--space-4);
+}
+
+.error-boundary h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  margin-bottom: var(--space-2);
+}
+
+.error-boundary p {
+  color: var(--text-muted);
+  margin-bottom: var(--space-6);
+}
+
+.error-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.error-actions .btn {
+  width: 100%;
+}

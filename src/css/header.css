@@ -1,0 +1,128 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: var(--space-4) var(--space-6);
+  background: rgba(15, 15, 26, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-primary);
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-base);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-base);
+}
+
+.header-logo:hover {
+  background: var(--bg-glass);
+  color: var(--primary-400);
+}
+
+.header-logo svg {
+  width: 20px;
+  height: 20px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-left: auto;
+}
+
+.coin-display {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: var(--bg-tertiary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-full);
+  margin-right: var(--space-2);
+  box-shadow: var(--shadow-glow);
+}
+
+.coin-icon {
+  font-size: 16px;
+  filter: drop-shadow(0 0 5px var(--primary-400));
+}
+
+.coin-amount {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+}
+
+@media (max-width: 480px) {
+  .coin-display {
+    padding: var(--space-1) var(--space-3);
+    margin-right: 0;
+  }
+
+  .coin-amount {
+    font-size: var(--text-xs);
+  }
+}
+
+.header-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: var(--bg-glass);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-full);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.header-btn:hover {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border-color: var(--primary-500);
+  box-shadow: var(--shadow-glow);
+}
+
+.header-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .header-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .header-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+}

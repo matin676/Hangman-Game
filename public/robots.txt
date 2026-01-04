@@ -1,0 +1,8 @@
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://hangman77.netlify.app/sitemap.xml
+
+# Disallow admin/private paths (none for this app)

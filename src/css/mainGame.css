@@ -1,383 +1,447 @@
-@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;600;700&display=swap");
+/* ===================================
+   MAIN GAME PAGE STYLES
+   =================================== */
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Ubuntu", sans-serif;
-  transition: all 0.4s ease;
-}
-
-body {
+/* Game Container */
+.game-container {
+  min-height: 100vh;
   display: flex;
-  padding: 0 10px;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  background-color: #ffeaa7;
+  padding: var(--space-8);
+  padding-top: calc(var(--space-8) + 80px);
 }
 
-.container {
+.game-layout {
   display: flex;
-  width: 850px;
-  gap: 70px;
-  padding: 60px 40px;
-  background: #f1f5f8;
-  background-image: radial-gradient(#bfc0c1 7.2%, transparent 0);
-  background-size: 25px 25px;
-  border-radius: 10px;
-  align-items: flex-end;
-  justify-content: space-between;
-  box-shadow: 4px 3px 7px 2px #00000040;
+  gap: var(--space-8);
+  max-width: 1000px;
+  width: 100%;
+  align-items: stretch;
+}
+
+/* Game Left Panel */
+.game-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.category-badge {
+  background: var(--gradient-primary);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-transform: capitalize;
+  color: white;
 }
 
 .hangman-box {
-  margin-left: -5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.hangman-box img {
+.hangman-img {
+  max-width: 280px;
   user-select: none;
-  max-width: 270px;
+  filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.3));
 }
 
-.hangman-box h1 {
-  font-size: 1.45rem;
-  text-align: center;
-  margin-top: 20px;
-  color: hsl(198, 1%, 29%);
-  text-transform: uppercase;
-  font-family: "Architects Daughter", cursive;
-  transform: rotate(2deg);
-  border-radius: 20% 5% 20% 5%/5% 20% 25% 20%;
-  background-color: #fdcb6e;
-}
-
-.game-box .word-display {
-  gap: 10px;
-  list-style: none;
+.refresh-btn {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
   align-items: center;
-}
-
-.word-display .letter {
-  width: 28px;
-  font-size: 2rem;
-  text-align: center;
-  font-weight: 600;
-  margin-bottom: 25px;
-  text-transform: uppercase;
-  border-bottom: 3px solid #000;
-}
-
-.word-display .letter.guessed {
-  margin: -40px 0 35px;
-  border-color: transparent;
-}
-
-.game-box h4 {
-  text-align: center;
-  font-size: 1.1rem;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-glass);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  color: var(--text-secondary);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
   font-weight: 500;
-  margin-bottom: 15px;
-}
-
-.game-box h4 b {
-  font-weight: 600;
-}
-
-.game-box h4 span {
-  font-weight: 400;
-}
-
-.game-box .guesses-text b {
-  color: #ff0000;
-  font-family: "Architects Daughter", cursive;
-}
-
-.game-box .keyboard {
-  display: flex;
-  gap: 5px;
-  flex-wrap: wrap;
-  margin-top: 40px;
-  justify-content: center;
-}
-
-:where(.game-modal, .keyboard) button {
-  padding: 0;
-  outline: none;
-  border: none;
   cursor: pointer;
-  font-size: 1rem;
-  font-weight: 600;
-  padding-bottom: 3px;
-  border-radius: 5px;
-  background-color: #ffeaa7;
-  text-transform: uppercase;
-  transition: all 0.3s ease;
+  transition: all var(--transition-base);
 }
 
-:where(.game-modal, .keyboard) button span {
-  background: #f1f5f8;
-  font-family: "Architects Daughter", cursive;
-  display: block;
-  border-radius: 5px;
-  border: 2px solid hsl(198, 1%, 29%);
+.refresh-btn:hover {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border-color: var(--primary-500);
 }
 
-.keyboard button {
-  width: calc(100% / 9 - 5px);
+.refresh-btn svg {
+  width: 18px;
+  height: 18px;
 }
 
-.keyboard button span {
-  padding: 0.3rem 0.5rem;
-  transition: all 0.3s ease;
+.refresh-btn:hover svg {
+  animation: spin 0.5s ease;
 }
 
-.keyboard button[disabled] {
-  pointer-events: none;
-  opacity: 0.6;
-}
-
-.keyboard button:hover {
-  background: #fff2e0;
-}
-
-.keyboard button span:hover {
-  font-size: 0.8rem;
-}
-
-.game-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  pointer-events: none;
-  background: rgba(0, 0, 0, 0.6);
+/* Game Right Panel */
+.game-right {
+  flex: 1;
+  padding: var(--space-8);
   display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  padding: 0 10px;
-  transition: all 0.4s ease;
+  flex-direction: column;
+  gap: var(--space-6);
 }
 
-.game-modal.show {
-  opacity: 1;
-  pointer-events: auto;
-  transition: all 0.4s 0.4s ease;
+/* Word & Hint Section */
+.word-hint-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
 }
 
-.game-modal .content {
-  padding: 30px;
-  max-width: 420px;
-  width: 100%;
-  border-radius: 10px;
-  background: #fff;
+.hint-section {
   text-align: center;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  background-image: radial-gradient(#fdcb6e 7.2%, transparent 0);
-  background-size: 25px 25px;
 }
 
-.game-modal .content h4 {
-  font-family: "Architects Daughter", cursive;
+.hint-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-2);
 }
 
-.game-modal img {
-  max-width: 130px;
-  margin-bottom: 20px;
+.hint-label svg {
+  width: 16px;
+  height: 16px;
+  color: var(--primary-400);
 }
 
-.game-modal img[src="images/victory.gif"] {
-  margin-left: -10px;
+.hint-text {
+  color: var(--text-secondary);
+  font-size: var(--text-base);
+  line-height: 1.5;
 }
 
-.game-modal h4 {
-  font-size: 1.53rem;
-  margin: 0 5rem;
-  border-bottom: 2px solid #ffeaa7;
-}
-
-.game-modal p {
-  font-size: 1.15rem;
-  margin: 15px 0 30px;
-  font-weight: 500;
-}
-
-.game-modal p b {
-  color: #f8820c;
-  font-family: "Architects Daughter", cursive;
-  font-weight: 600;
-}
-
-.game-modal button {
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease-in-out;
-}
-
-.game-modal button span {
-  padding: 12px 23px;
-}
-
-.game-modal button:hover {
-  font-size: 0.9rem;
-}
-
-.load-container {
-  position: relative;
-  width: 60px;
-  left: 48rem;
-  top: -22rem;
-}
-
-.load-container img {
-  width: 100%;
-  transition: all 0.4s ease;
-}
-
-.load-container img:hover {
-  cursor: pointer;
-  transform: rotate(180deg);
-}
-
-.loader-container {
+/* Word Display */
+.word-display {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.letter-box {
+  width: 40px;
+  height: 48px;
+  display: flex;
   align-items: center;
-  height: 100vh;
-}
-
-.flipping-cards {
-  display: flex;
-  justify-content: space-between;
-  width: 210px;
-}
-
-.card {
-  width: 30px;
-  height: 40px;
-  background-color: #ff5c35;
-  color: white;
-  display: flex;
   justify-content: center;
-  align-items: center;
-  font-size: 18px;
-  font-weight: bold;
-  border-radius: 4px;
-  backface-visibility: hidden;
-  transform-style: preserve-3d;
-  animation: flip 2s infinite;
+  background: var(--bg-tertiary);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-base);
 }
 
-.card:nth-child(1) {
-  animation-delay: 0s;
+.letter-box.letter-revealed {
+  background: var(--primary-600);
+  border-color: var(--primary-500);
+  animation: letter-pop 0.3s ease;
 }
 
-.card:nth-child(2) {
-  animation-delay: 0.3s;
-}
-
-.card:nth-child(3) {
-  animation-delay: 0.6s;
-}
-
-.card:nth-child(4) {
-  animation-delay: 0.9s;
-}
-
-.card:nth-child(5) {
-  animation-delay: 1.2s;
-}
-
-.card:nth-child(6) {
-  animation-delay: 1.5s;
-}
-
-.card:nth-child(7) {
-  animation-delay: 1.8s;
-}
-
-@keyframes flip {
-  0%,
-  100% {
-    transform: rotateY(0deg);
+@keyframes letter-pop {
+  0% {
+    transform: scale(1);
   }
   50% {
-    transform: rotateY(180deg);
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 
-@media (max-width: 782px) {
-  .container {
+.letter {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+
+/* Guesses Section */
+.guesses-container {
+  text-align: center;
+}
+
+.guesses-label {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  margin-bottom: var(--space-2);
+}
+
+.guesses-display {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: var(--space-1);
+  margin-bottom: var(--space-2);
+}
+
+.guesses-current {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.guesses-separator {
+  color: var(--text-muted);
+  font-size: var(--text-lg);
+}
+
+.guesses-max {
+  color: var(--text-muted);
+  font-size: var(--text-lg);
+}
+
+.guesses-container.guesses-danger .guesses-current {
+  color: var(--error-400);
+}
+
+.guesses-bar {
+  width: 100%;
+  max-width: 200px;
+  height: 6px;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-full);
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.guesses-bar-fill {
+  height: 100%;
+  background: var(--gradient-primary);
+  border-radius: var(--radius-full);
+  transition: width var(--transition-base);
+}
+
+.guesses-container.guesses-danger .guesses-bar-fill {
+  background: var(--gradient-error);
+}
+
+/* Power-ups */
+.powerups-container {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.powerup-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-4);
+  background: var(--bg-glass);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.powerup-btn:hover:not(:disabled) {
+  background: var(--bg-tertiary);
+  border-color: var(--primary-400);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow-accent);
+}
+
+.powerup-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(1);
+}
+
+.powerup-icon {
+  font-size: 20px;
+}
+
+.powerup-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.powerup-label {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.powerup-cost {
+  font-size: 10px;
+  color: var(--warning-400);
+  font-weight: 600;
+}
+
+@media (max-width: 480px) {
+  .powerups-container {
+    gap: var(--space-2);
+  }
+
+  .powerup-btn {
+    padding: var(--space-2) var(--space-3);
+  }
+
+  .powerup-label {
+    display: none;
+  }
+}
+
+/* Keyboard Tip */
+.keyboard-tip {
+  text-align: center;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  margin-top: var(--space-4);
+  opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+  .keyboard-tip {
+    display: none;
+  }
+}
+
+/* Loading State */
+.game-loading {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-content {
+  text-align: center;
+}
+
+.loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid var(--bg-tertiary);
+  border-top-color: var(--primary-500);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto var(--space-4);
+}
+
+.loading-text {
+  color: var(--text-secondary);
+  font-size: var(--text-base);
+  margin-bottom: var(--space-2);
+}
+
+.loading-category {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--primary-400);
+  text-transform: capitalize;
+}
+
+/* Error State */
+.game-error {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+}
+
+.error-content {
+  text-align: center;
+  padding: var(--space-10);
+  max-width: 400px;
+}
+
+.error-icon {
+  font-size: 64px;
+  margin-bottom: var(--space-4);
+}
+
+.error-content h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  margin-bottom: var(--space-2);
+}
+
+.error-content p {
+  color: var(--text-muted);
+  margin-bottom: var(--space-6);
+}
+
+.error-content .btn {
+  margin-bottom: var(--space-2);
+  width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .game-layout {
     flex-direction: column;
-    width: 500px;
-    padding: 30px 15px;
     align-items: center;
   }
-  .hangman-box {
-    margin: 0;
+
+  .game-left {
+    order: 1;
   }
-  .hangman-box img {
+
+  .game-right {
+    order: 2;
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .hangman-img {
     max-width: 200px;
-    margin-top: -6rem;
-  }
-  .game-box h4 {
-    font-size: 1rem;
-  }
-  .word-display .letter {
-    margin-bottom: 35px;
-    font-size: 1.7rem;
-  }
-  .word-display .letter.guessed {
-    margin: -35px 0 25px;
-  }
-  .game-modal img {
-    max-width: 120px;
-  }
-  .game-modal h4 {
-    font-size: 1.45rem;
-  }
-  .game-modal p {
-    font-size: 1.1rem;
-  }
-  .game-modal button {
-    padding: 10px 18px;
-  }
-  .load-container {
-    width: 25px;
-    left: 13.5rem;
-    top: -1rem;
   }
 }
 
-@media (max-width: 450px) {
-  .container {
-    width: 300px;
+@media (max-width: 600px) {
+  .game-container {
+    padding: var(--space-4);
+    padding-top: calc(var(--space-4) + 70px);
   }
-  .hangman-box img {
+
+  .game-right {
+    padding: var(--space-5);
+  }
+
+  .letter-box {
+    width: 32px;
+    height: 40px;
+  }
+
+  .letter {
+    font-size: var(--text-lg);
+  }
+
+  .hangman-img {
     max-width: 150px;
   }
-  .game-box .guesses-text {
-    font-size: 0.8rem;
+}
+
+@media (max-width: 400px) {
+  .letter-box {
+    width: 26px;
+    height: 34px;
   }
-  .game-box .hint-text {
-    font-size: 0.8rem;
-  }
-  .word-display .letter {
-    font-size: 1.3rem;
-  }
-  .keyboard button {
-    font-size: 0.7rem;
-  }
-  .load-container {
-    left: 7.5rem;
-    top: -1rem;
-  }
-  .hangman-box h1 {
-    font-size: 1rem;
+
+  .letter {
+    font-size: var(--text-base);
   }
 }
