@@ -16,6 +16,7 @@
     "@testing-library/react": "^16.3.1",
     "@testing-library/user-event": "^14.6.1",
     "@vitejs/plugin-react": "^4.3.4",
+    "terser": "^5.44.1",
     "vite": "^6.0.7"
   },
   "scripts": {
