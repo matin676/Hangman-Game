@@ -41,8 +41,8 @@ A premium, feature-rich Hangman word guessing game built with **React 19**, **Vi
 
 ```bash
 # 1. Clone & Install
-git clone https://github.com/your-username/hangman-ai.git
-cd hangman-ai
+git clone https://github.com/matin676/Hangman-Game.git
+cd Hangman-Game
 npm install
 
 # 2. Setup API Key
