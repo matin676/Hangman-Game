@@ -71,11 +71,11 @@ const retryWithBackoff = async (fn, maxRetries = 3) => {
 const fetchWordFromAPI = async (category) => {
   const prompts = {
     superhero:
-      "Provide a random superhero name from Marvel comics or DC comics and a hint for it. Format the response as 'Word: <superhero>, Hint: <hint>'.",
+      "Provide a random superhero name from Marvel or DC comics. The name MUST be a single word with only alphabetic characters (no hyphens, numbers, spaces, or special characters). For example, use 'spiderman' instead of 'spider-man'. Also provide a hint. Format: 'Word: <superhero>, Hint: <hint>'.",
     animal:
-      "Provide a random animal name and a hint for it. Format the response as 'Word: <animal>, Hint: <hint>'.",
+      "Provide a random animal name. The name MUST be a single word with only alphabetic characters (no hyphens, numbers, spaces, or special characters). Also provide a hint. Format: 'Word: <animal>, Hint: <hint>'.",
     movie:
-      "Provide a random movie name from a well-known list of movies along with a hint. Format the response as 'Word: <movie>, Hint: <hint>'.",
+      "Provide a random well-known movie name. The name MUST be a single word with only alphabetic characters (no hyphens, numbers, spaces, or special characters). If the movie has numbers, spell them out (e.g., 'sawfive' for 'Saw 5'). Also provide a hint. Format: 'Word: <movie>, Hint: <hint>'.",
   };
 
   const prompt = prompts[category] || prompts.superhero;
@@ -90,9 +90,15 @@ const fetchWordFromAPI = async (category) => {
   let word = wordMatch ? wordMatch[1].trim() : "";
   const hint = hintMatch ? hintMatch[1].trim() : "";
 
-  // Clean the word
-  word = word.replace(/^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$/g, "").toLowerCase();
-  word = word.replace(/\s+/g, "");
+  // Clean the word: convert numbers to words, then keep only letters
+  const numberWords = {
+    0: "zero", 1: "one", 2: "two", 3: "three", 4: "four",
+    5: "five", 6: "six", 7: "seven", 8: "eight", 9: "nine",
+    10: "ten", 11: "eleven", 12: "twelve", 13: "thirteen",
+  };
+  word = word.toLowerCase();
+  word = word.replace(/\d+/g, (match) => numberWords[parseInt(match)] || match);
+  word = word.replace(/[^a-z]/g, "");
 
   if (!word || usedWords.has(word)) {
     throw new Error("Invalid or duplicate word");
